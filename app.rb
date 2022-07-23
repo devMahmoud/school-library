@@ -20,29 +20,39 @@ class App
     people.each { |person| puts "[#{person.class}] Name: #{person.name} ID: #{person.id} age: #{person.age}" }
   end
 
-  def add_teacher
+  # rubocop:disable Metrics/MethodLength
+  def add_person
+    print 'Do you want to create a student (1) or a teacher (2)? [Input the number]:'
+    person = gets.chomp.to_i
+    case person
+    when 1
+      type = 'student'
+    when 2
+      type = 'teacher'
+    else
+      puts 'Invalid selection'
+    end
     print 'Age:'
     age = gets.chomp.to_i
     print 'Name:'
     name = gets.chomp
-    print 'specialization:'
-    specialization = gets.chomp
-    teacher = Teacher.new(specialization: specialization, age: age, name: name)
-    people.push(teacher)
+    case type
+    when 'student'
+      print 'Has parent permission? [Y/N]:'
+      permission = (gets.chomp.upcase == 'Y')
+      student = Student.new(classroom: nil, age: age, name: name, parent_permission: permission)
+      people.push(student)
+    when 'teacher'
+      print 'specialization:'
+      specialization = gets.chomp
+      teacher = Teacher.new(specialization: specialization, age: age, name: name)
+      people.push(teacher)
+    else
+      return
+    end
     puts 'Person created successfully'
   end
-
-  def add_student
-    print 'Age:'
-    age = gets.chomp.to_i
-    print 'Name:'
-    name = gets.chomp
-    print 'Has parent permission? [Y/N]:'
-    permission = (gets.chomp.upcase == 'Y')
-    student = Student.new(classroom: nil, age: age, name: name, parent_permission: permission)
-    people.push(student)
-    puts 'Person created successfully'
-  end
+  # rubocop:enable Metrics/MethodLength
 
   def add_book
     print 'Title:'

@@ -36,16 +36,7 @@ class Main
       app.list_all_people
       show_menu
     when 3
-      print 'Do you want to create a student (1) or a teacher (2)? [Input the number]:'
-      person = gets.chomp.to_i
-      case person
-      when 1
-        app.add_student
-      when 2
-        app.add_teacher
-      else
-        puts 'Invalid selection'
-      end
+      app.add_person
       show_menu
     when 4
       app.add_book
